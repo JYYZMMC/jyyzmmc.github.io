@@ -1,4 +1,79 @@
-<meta http-equiv="refresh" content="0;url=https://jessssssseea.github.io/JYYZMMC">
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跳转中</title>
+    <!-- 页面完全无样式，不渲染任何可见元素 -->
+</head>
+<body>
+    <!-- 页面完全为空 -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ----- 配置 -----
+            const MAIN_URL = 'https://jessssssseea.github.io/JYYZMMC';
+            const FALLBACK_URL = 'https://jessssssseea.github.io/JYYZMMC/index_newdesign.html';
+            const CONGRATULATIONS_TITLE = '幸运地跳转到了新的设计';
+            const THRESHOLD = 0.9;          // 90% 概率跳转主链接
+            const FALLBACK_DELAY_MS = 500;  // 备用链接延迟
+            // -----------------
+
+            // 生成随机数并决定目标
+            const random = Math.random();
+            let targetUrl = MAIN_URL;
+            let isFallback = false;
+
+            if (random < THRESHOLD) {
+                // 90% 分支: 主链接
+                targetUrl = MAIN_URL;
+                isFallback = false;
+                // 立即执行跳转 (替换历史记录)
+                performRedirect(targetUrl);
+            } else {
+                // 10% 分支: 备用链接
+                targetUrl = FALLBACK_URL;
+                isFallback = true;
+                // 修改页面标题为祝贺语
+                document.title = CONGRATULATIONS_TITLE;
+                // 延迟后执行跳转
+                setTimeout(function() {
+                    performRedirect(targetUrl);
+                }, FALLBACK_DELAY_MS);
+            }
+
+            // 封装跳转函数，统一处理
+            function performRedirect(url) {
+                try {
+                    // 使用 replace 避免在历史记录中留下当前页
+                    window.location.replace(url);
+                } catch (_) {
+                    // 极少数兼容性fallback
+                    window.location.href = url;
+                }
+            }
+
+            // 额外安全措施 (仅对主链接立即跳转可能因某些原因失败时生效)
+            // 但主链接已经立即执行，此处为防御性编程
+            // 若主链接跳转被阻止，设置一个极短的后备定时器 (通常不会触发)
+            if (!isFallback) {
+                setTimeout(function() {
+                    try {
+                        if (window.location.href !== targetUrl) {
+                            window.location.replace(targetUrl);
+                        }
+                    } catch (_) {}
+                }, 60);
+            }
+
+        })();
+    </script>
+</body>
+</html>
+
+<!--<meta http-equiv="refresh" content="0;url=https://jessssssseea.github.io/JYYZMMC">
+-->
 <!--
 <!DOCTYPE html>
 <html lang="zh-CN">
